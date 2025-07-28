@@ -1,0 +1,92 @@
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+.navbar {
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-compass {
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link {
+    color: #222222 !important;
+}
+
+/* Footer Links */
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+    color: #222222;
+}
+
+/* Footer Layout */
+.f-info-links {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fixed: Was incorrectly nested inside .f-info-socials */
+.f-info-brand {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 1.5rem;
+    margin-right: 2rem;
+    justify-content: center;
+}
+
+/* Footer Icons */
+.f-info-socials i {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+/* Footer Container */
+.f-info {
+    text-align: center;
+    display: flex;
+    height: 8rem;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; /* Fixed: was using an invalid value */
+}
+
+/*cards*/
+.card{
+    border:none !important;
+    margin-bottom:2rem;
+}
+.card-img-top {
+    height: 250px; /* or any fixed height you prefer */
+    object-fit: cover;
+    border-radius: 1rem;
+    width: 100% !important;
+}
+
+.card-body{
+    padding:0 !important;
+}
+.card-text p{
+    font-weight: 400 !important;
+}
+.listing-link{
+    text-decoration: none;
+}
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
