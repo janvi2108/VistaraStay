@@ -1,21 +1,46 @@
-<% layout ("/layout/boilerplate")%>
-<body>
-    <h3> listing details :</h3>
-   <ul>
-    <li>  <%= listing.title %> </li>
-    <li> <%= listing.description %> </li>
-   <li> 
-    &#8377; 
-    <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> 
-</li>
+<% layout("layout/boilerplate") %>
 
-    <li> <%= listing.location %> </li>
-    <li> <%= listing.country %> </li>
-   </ul>
-   <br>
-   <a href="/listings/<%= listing._id %>/edit">Edit this listing</a>
-   <br><br>
-   <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
-    <button>delete this listing</button>
-   </form>
-</body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h3 class="mb-4 fw-bold text-start">Listing Details</h3>
+
+      <div class="card shadow-sm border-0 rounded-4">
+        <img 
+          src="<%= listing.image.url %>" 
+          class="card-img-top rounded-top-4" 
+          alt="listing image"
+        >
+
+        <div class="card-body px-4 py-3">
+          <h5 class="card-title fw-bold mb-2"><%= listing.title %></h5>
+          <p class="card-text mb-2"><%= listing.description %></p>
+
+          <p class="mb-1 fw-medium">₹ <%= listing.price.toLocaleString("en-IN") %></p>
+          <p class="mb-1"><%= listing.location %></p>
+          <p class="mb-3"><%= listing.country %></p>
+
+          <div class="d-flex gap-3">
+            <a 
+              href="/listings/<%= listing._id %>/edit" 
+              class="btn fw-semibold"
+              style="background-color: #fe424d; color: white; border: none; padding: 6px 20px;"
+            >
+              Edit
+            </a>
+
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+              <button 
+                type="submit"
+                class="btn fw-semibold"
+                style="background-color: #000; color: white; border: none; padding: 6px 20px;"
+              >
+                Delete
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

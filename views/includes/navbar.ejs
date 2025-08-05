@@ -1,19 +1,27 @@
-<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-      <i class="fa-solid fa-compass"></i>
-      <span>VistaraStay</span>
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center gap-2 me-4" href="/" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600;">
+      <i class="fa-solid fa-compass" style="color: #fe424d;"></i>
+      <span class="text-dark">VistaraStay</span>
     </a>
 
-    <button class="navbar-toggler" type="button" 
-      data-bs-toggle="collapse" 
-      data-bs-target="#navbarNavAltMarkup">
+    <!-- Toggler for mobile -->
+    <button class="navbar-toggler" type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings/new">Add New Listing</a>
+    <!-- Left-side Nav Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav d-flex align-items-center">
+        <a class="nav-link text-dark" href="/">Home</a>
+        <a class="nav-link text-dark" href="/listings">All Listings</a>
+        <a class="nav-link text-dark" href="/listings/new">Add New Listing</a>
       </div>
     </div>
   </div>
