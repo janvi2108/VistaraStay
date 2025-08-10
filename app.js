@@ -6,8 +6,10 @@ const path = require("path");
 const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 
-// EJS engine & views setup
+// EJS setup
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -29,15 +31,11 @@ app.get("/", (req, res) => {
   res.send("Root is working");
 });
 
-// Index route - All listings
-app.get("/listings", async (req, res) => {
-  try {
-    const allListings = await Listing.find({});
-    res.render("listings/index", { allListings });
-  } catch (err) {
-    res.status(500).send("Error fetching listings: " + err.message);
-  }
-});
+// Index route - all listings
+app.get("/listings", wrapAsync(async (req, res) => {
+  const listings = await Listing.find({});
+  res.render("listings/index", { listings });
+}));
 
 // New listing form
 app.get("/listings/new", (req, res) => {
@@ -45,66 +43,81 @@ app.get("/listings/new", (req, res) => {
 });
 
 // Create listing
-app.post("/listings", async (req, res) => {
-  console.log("Form submitted:", req.body);
+app.post("/listings", wrapAsync(async (req, res) => {
+  if (!req.body.listing) {
+    throw new ExpressError("Invalid Listing Data", 400);
+  }
+
   const newListing = new Listing(req.body.listing);
   await newListing.save();
   res.redirect(`/listings/${newListing._id}`);
-});
+}));
 
 // Show listing
-app.get("/listings/:id", async (req, res) => {
+app.get("/listings/:id", wrapAsync(async (req, res, next) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
-  console.log("Fetched listing:", listing);
-  res.render("listings/show", { listing });
-});
 
-// Edit listing form
-app.get("/listings/:id/edit", async (req, res) => {
+  if (!listing) {
+    throw new ExpressError("Listing not found", 404);
+  }
+
+  res.render("listings/show", { listing });
+}));
+
+// Edit form
+app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
+
+  if (!listing) {
+    throw new ExpressError("Listing not found", 404);
+  }
+
   res.render("listings/edit", { listing });
-});
+}));
 
 // Update listing
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", wrapAsync(async (req, res) => {
   const { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  const updatedListing = await Listing.findByIdAndUpdate(id, req.body.listing, { runValidators: true });
+
+  if (!updatedListing) {
+    throw new ExpressError("Unable to update listing", 400);
+  }
+
   res.redirect(`/listings/${id}`);
-});
+}));
 
-// Delete listing (via GET for testing; should use DELETE in production)
-app.get("/listings/:id/delete", async (req, res) => {
+// Delete listing
+app.delete("/listings/:id", wrapAsync(async (req, res) => {
   const { id } = req.params;
-  await Listing.findByIdAndDelete(id);
-  res.send("Listing deleted");
+  const deleted = await Listing.findByIdAndDelete(id);
+
+  if (!deleted) {
+    throw new ExpressError("Listing not found or already deleted", 404);
+  }
+
+  res.redirect("/listings");
+}));
+
+// Catch-all route
+app.all('*', (req, res, next) => {
+  next(new ExpressError('Page Not Found!', 404));
 });
 
-// Test: Insert a sample listing
-app.get("/testListing", async (req, res) => {
-  let sampleListing = new Listing({
-    title: "My New Villa",
-    description: "By the beach",
-    price: 1200,
-    location: "Calangute, Goa",
-    country: "India",
-  });
-  await sampleListing.save();
-  console.log("Sample was saved");
-  res.send("Successful testing");
+
+// Error handler
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Something went wrong!";
+  res.status(statusCode).render("error", { err }); // not .send
 });
 
-// Debug route: check for one listing
-app.get("/check-listing", async (req, res) => {
-  const listing = await Listing.findOne({ title: "Beachfront Bungalow in Bali" });
-  console.log(listing);
-  res.send(listing);
-});
 
-// Server
-const port = 8080;
+
+// Server start
+const port = 3000;
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });
-

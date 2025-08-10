@@ -110,3 +110,42 @@ body {
 .show-img{
     height: 30vh;
 }
+/* Clean image block without card appearance */
+.listing-container {
+    transition: opacity 0.3s ease;
+}
+
+.listing-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    transition: opacity 0.3s ease;
+}
+
+.listing-img:hover {
+    opacity: 0.8;
+}
+
+/* Title styling */
+.listing-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    color: #222;
+}
+
+/* Price styling */
+.listing-price {
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 0.3rem;
+}
+
+/* Link reset */
+.listing-link {
+    text-decoration: none;
+    color: inherit;
+}

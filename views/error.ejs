@@ -1,0 +1,12 @@
+<% layout("layout/boilerplate") %>
+
+<div class="container text-center mt-5">
+  <h1 class="display-4 text-danger"><%= err.statusCode || 500 %> - Error</h1>
+  <p class="lead"><%= err.message || "Something went wrong!" %></p>
+  <a href="/listings" class="btn btn-outline-primary mt-3">Back to Listings</a>
+</div>
+
+
+<div class="alert alert-danger col-6 offset-3" role="alert">
+  A simple danger alert—check it out!
+</div>

@@ -7,18 +7,24 @@
 
       <div class="card shadow-sm border-0 rounded-4">
         <img 
-          src="<%= listing.image.url %>" 
+          src="<%= listing.image?.url || '/images/default-listing.jpg' %>" 
           class="card-img-top rounded-top-4" 
           alt="listing image"
         >
 
         <div class="card-body px-4 py-3">
-          <h5 class="card-title fw-bold mb-2"><%= listing.title %></h5>
-          <p class="card-text mb-2"><%= listing.description %></p>
+          <h5 class="card-title fw-bold mb-2">
+            <%= listing.title || 'Untitled Listing' %>
+          </h5>
+          <p class="card-text mb-2">
+            <%= listing.description || 'No description provided.' %>
+          </p>
 
-          <p class="mb-1 fw-medium">₹ <%= listing.price.toLocaleString("en-IN") %></p>
-          <p class="mb-1"><%= listing.location %></p>
-          <p class="mb-3"><%= listing.country %></p>
+          <p class="mb-1 fw-medium">
+            ₹ <%= listing.price ? listing.price.toLocaleString("en-IN") : 'N/A' %>
+          </p>
+          <p class="mb-1"><%= listing.location || 'Location Unknown' %></p>
+          <p class="mb-3"><%= listing.country || 'Country Unknown' %></p>
 
           <div class="d-flex gap-3">
             <a 
